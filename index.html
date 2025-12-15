@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adekani | Real Estate Website Pricing</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        adekani: {
+                            black: '#0a0a0a',
+                            dark: '#171717',
+                            card: '#1e1e1e',
+                            gold: '#D4AF37', // Premium metallic gold
+                            goldHover: '#b5952f',
+                            text: '#f3f4f6',
+                            muted: '#9ca3af',
+                            error: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #171717;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Card Selection Animation */
+        .option-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option-card.selected {
+            border-color: #D4AF37;
+            background-color: #262626;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Checkbox Customization */
+        .custom-checkbox {
+            accent-color: #D4AF37;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Error Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake-error {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: #ef4444 !important;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-adekani-dark/95 backdrop-blur-sm border-b border-white/10 shadow-lg">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Ensure logo.png is in your repo -->
+                <img src="logo.png" alt="Adekani Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block'">
+                <h1 id="text-logo" class="hidden text-xl font-bold text-adekani-gold tracking-wide">ADEKANI</h1>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-3xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Header -->
+        <header class="text-center space-y-3">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">Budget-Friendly Real Estate Websites</h2>
+            <p class="text-adekani-muted text-lg">Select your options below to get an instant price quote.</p>
+        </header>
+
+        <!-- DEMO SECTION (High Visibility) -->
+        <section class="bg-gradient-to-br from-adekani-card to-[#2a2a2a] border border-adekani-gold/30 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-adekani-gold/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+            
+            <div class="relative z-10 text-center space-y-4">
+                <div class="inline-block bg-adekani-gold/20 text-adekani-gold px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                    Not sure yet?
+                </div>
+                <h3 class="text-2xl font-bold text-white">Want Assurance Before You Commit?</h3>
+                <p class="text-gray-300 max-w-lg mx-auto">
+                    That's fine. Get a <span class="text-adekani-gold font-bold">FREE custom demo</span> in 6 hrs or less. See what your website could look like if we work together.
+                </p>
+                <button onclick="requestDemo()" class="mt-4 bg-adekani-gold hover:bg-adekani-goldHover text-black font-bold py-3 px-8 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 mx-auto shadow-lg hover:shadow-adekani-gold/20 w-full sm:w-auto">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    GET FREE DEMO
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 1: Select Plan -->
+        <section id="plans-section" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-adekani-gold text-black flex items-center justify-center font-bold">1</div>
+                <h3 class="text-xl font-bold text-white">Click On the Website Plan You Want</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Starter -->
+                <div onclick="selectPlan('Starter', 30000, this)" class="option-card bg-adekani-card p-5 rounded-xl cursor-pointer group hover:bg-[#252525]">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-lg font-bold text-white group-hover:text-adekani-gold transition-colors">Starter</h4>
+                        <span class="text-adekani-gold font-bold">₦30,000</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Homepage</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>4 Property Listings </li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Individual Property Pages</li>
+                    </ul>
+                </div>
+
+                <!-- Core -->
+                <div onclick="selectPlan('Core', 45000, this)" class="option-card bg-adekani-card p-5 rounded-xl cursor-pointer group hover:bg-[#252525]">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-lg font-bold text-white group-hover:text-adekani-gold transition-colors">Core</h4>
+                        <span class="text-adekani-gold font-bold">₦45,000</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Homepage</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Property Listings Page (Catalog view)</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>8 Property Listings </li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Individual Property Pages</li>
+                    </ul>
+                </div>
+
+                <!-- Pro -->
+                <div onclick="selectPlan('Pro', 75000, this)" class="option-card bg-adekani-card p-5 rounded-xl cursor-pointer group hover:bg-[#252525]">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-lg font-bold text-white group-hover:text-adekani-gold transition-colors">Pro</h4>
+                        <span class="text-adekani-gold font-bold">₦75,000</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Homepage + Services Page</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Property Listings Page (Catalog view)</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Price Filter</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>12 Property Listings </li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Individual Property Pages</li>
+                    </ul>
+                </div>
+
+                <!-- Pro+ -->
+                <div onclick="selectPlan('Pro+', 120000, this)" class="option-card bg-adekani-card p-5 rounded-xl cursor-pointer group hover:bg-[#252525] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-adekani-gold text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">BEST VALUE</div>
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-lg font-bold text-white group-hover:text-adekani-gold transition-colors">Pro+</h4>
+                        <span class="text-adekani-gold font-bold">₦120,000</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Up to 5 Core Pages</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Property Listings Page (Catalog view)</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Contact Form</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Advanced Filters & Video</li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>20 Property Listings </li>
+                        <li><i class="fas fa-check text-adekani-gold/70 mr-2"></i>Individual Property Pages</li>
+                    </ul>
+                </div>
+
+            </div>
+            <p id="plan-error" class="hidden text-adekani-error text-sm mt-2 font-medium"><i class="fas fa-exclamation-circle mr-1"></i> Please select a plan above.</p>
+        </section>
+
+        <!-- Step 2: Domain Name -->
+        <section id="domain-section" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-adekani-gold text-black flex items-center justify-center font-bold">2</div>
+                <h3 class="text-xl font-bold text-white">Click On Your Chosen Domain Name Option</h3>
+            </div>
+            <p class="text-sm text-gray-400 mb-4">This is the address people type to find you (e.g., yourname.com).</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <div onclick="selectDomain('.com', 30000, this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+                    <span class="font-medium">.com</span>
+                    <span class="text-adekani-gold font-bold">₦30,000</span>
+                </div>
+
+                <div onclick="selectDomain('.com.ng', 20000, this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+                    <span class="font-medium">.com.ng</span>
+                    <span class="text-adekani-gold font-bold">₦20,000</span>
+                </div>
+
+                <div onclick="selectDomain('.pages.dev', 0, this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+                    <span class="font-medium">.pages.dev</span>
+                    <span class="text-green-400 font-bold">FREE</span>
+                </div>
+
+                <div onclick="selectDomain('I have a domain', 0, this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+                    <span class="font-medium">I have one</span>
+                    <span class="text-green-400 font-bold">FREE</span>
+                </div>
+
+            </div>
+            <p id="domain-error" class="hidden text-adekani-error text-sm mt-2 font-medium"><i class="fas fa-exclamation-circle mr-1"></i> Please select a domain option.</p>
+        </section>
+
+        <!-- Step 3: Updates -->
+        <section id="update-section" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-adekani-gold text-black flex items-center justify-center font-bold">3</div>
+                <h3 class="text-xl font-bold text-white">How Do You Want to Add & Remove Property Listings?</h3>
+            </div>
+            <p class="text-sm text-gray-400 mb-4">Select how you will like us to manage the  Property Listings on your website </p>
+
+            <div class="grid grid-cols-1 gap-4">
+                
+                <div onclick="selectUpdate('Pay per Update', this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-white">Pay Per Update</span>
+                        <span class="text-gray-400 text-xs">Flexible</span>
+                    </div>
+                    <p class="text-xs text-gray-500">Pay to add or remove a property (₦5k for one update, ₦12k for 3 updates)</p>
+                </div>
+
+                <div onclick="selectUpdate('Monthly Management', this)" class="option-card bg-adekani-card p-4 rounded-xl cursor-pointer">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-white">Monthly Management</span>
+                        <span class="text-adekani-gold text-sm font-bold">₦25k/month</span>
+                    </div>
+                    <p class="text-xs text-gray-500">Up to 25 updates per month. Peace of mind.</p>
+                </div>
+
+            </div>
+            <p id="update-error" class="hidden text-adekani-error text-sm mt-2 font-medium"><i class="fas fa-exclamation-circle mr-1"></i> Please select an update preference.</p>
+        </section>
+
+        <!-- Notices -->
+        <section class="bg-[#1a1a1a] border-l-4 border-adekani-gold p-4 rounded-r-lg">
+            <h4 class="text-white font-bold mb-2"><i class="fas fa-info-circle text-adekani-gold mr-2"></i>Important Notes</h4>
+            <ul class="text-sm text-gray-400 space-y-2 list-disc list-inside">
+                <li>Ads (Facebook/Instagram/Google) are not included here and are billed separately.</li>
+                <li>A minimum <strong>70% upfront deposit</strong> is required to begin work.</li>
+            </ul>
+        </section>
+
+        <!-- Summary & Checkout -->
+        <section class="bg-adekani-card border border-white/10 rounded-2xl p-6 space-y-6 shadow-2xl">
+            <h3 class="text-2xl font-bold text-white text-center border-b border-white/10 pb-4">Estimated Total</h3>
+            
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between text-gray-400">
+                    <span>Website Plan:</span>
+                    <span id="summary-plan" class="text-white">...</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Domain:</span>
+                    <span id="summary-domain" class="text-white">...</span>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-white/10">
+                <span class="text-lg text-gray-300">Total:</span>
+                <span id="total-price" class="text-3xl font-bold text-adekani-gold">₦0</span>
+            </div>
+
+            <!-- Terms -->
+            <div class="bg-black/30 p-3 rounded-lg border border-white/5">
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input type="checkbox" id="tos-checkbox" class="custom-checkbox mt-1 cursor-pointer">
+                    <span class="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                        I agree to the <a href="https://forms.adekani.com.ng/terms%20of%20service" target="_blank" class="text-adekani-gold hover:underline">Terms of Service</a>. I understand that a 70% deposit is required to start, and ad campaigns are billed separately.
+                    </span>
+                </label>
+            </div>
+
+            <button id="order-btn" onclick="submitOrder()" class="w-full bg-gray-600 cursor-not-allowed text-white/50 font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-lg">
+                <i class="fab fa-whatsapp"></i>
+                Send Order via WhatsApp
+            </button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 text-gray-600 text-xs">
+            &copy; <script>document.write(new Date().getFullYear())</script> Adekani. All rights reserved.
+        </footer>
+
+    </main>
+
+    <script>
+        // State Management
+        let state = {
+            plan: null,
+            planCost: 0,
+            domain: null,
+            domainCost: 0,
+            updateType: null
+        };
+
+        const WHATSAPP_NUMBER = "2347015281093";
+        
+        // DOM Elements
+        const totalPriceEl = document.getElementById('total-price');
+        const summaryPlanEl = document.getElementById('summary-plan');
+        const summaryDomainEl = document.getElementById('summary-domain');
+        const tosCheckbox = document.getElementById('tos-checkbox');
+        const orderBtn = document.getElementById('order-btn');
+
+        // Helper to format currency
+        const formatCurrency = (amount) => {
+            return '₦' + amount.toLocaleString();
+        };
+
+        // Selection Handlers
+        function selectPlan(name, cost, element) {
+            state.plan = name;
+            state.planCost = cost;
+            
+            // UI Update
+            document.querySelectorAll('#plans-section .option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('plan-error').classList.add('hidden');
+            
+            updateSummary();
+        }
+
+        function selectDomain(name, cost, element) {
+            state.domain = name;
+            state.domainCost = cost;
+
+            // UI Update
+            document.querySelectorAll('#domain-section .option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('domain-error').classList.add('hidden');
+            
+            updateSummary();
+        }
+
+        function selectUpdate(type, element) {
+            state.updateType = type;
+
+            // UI Update
+            document.querySelectorAll('#update-section .option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('update-error').classList.add('hidden');
+        }
+
+        // Calculation & Summary
+        function updateSummary() {
+            const total = state.planCost + state.domainCost;
+            
+            summaryPlanEl.innerText = state.plan ? `${state.plan} (${formatCurrency(state.planCost)})` : 'None selected';
+            summaryDomainEl.innerText = state.domain ? `${state.domain} (${state.domainCost === 0 ? 'FREE' : formatCurrency(state.domainCost)})` : 'None selected';
+            
+            totalPriceEl.innerText = formatCurrency(total);
+        }
+
+        // ToS Toggle Logic
+        tosCheckbox.addEventListener('change', function() {
+            if(this.checked) {
+                orderBtn.classList.remove('bg-gray-600', 'cursor-not-allowed', 'text-white/50');
+                orderBtn.classList.add('bg-green-600', 'hover:bg-green-500', 'text-white', 'shadow-lg', 'hover:shadow-green-500/20');
+            } else {
+                orderBtn.classList.add('bg-gray-600', 'cursor-not-allowed', 'text-white/50');
+                orderBtn.classList.remove('bg-green-600', 'hover:bg-green-500', 'text-white', 'shadow-lg', 'hover:shadow-green-500/20');
+            }
+        });
+
+        // WhatsApp Functions
+        function requestDemo() {
+            const message = "Hi Adekani, I am interested in your services but I would like to request a FREE demo to get a feel of what my website might look like when it is built.";
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function submitOrder() {
+            // Validation
+            let isValid = true;
+
+            if(!state.plan) {
+                const el = document.getElementById('plan-error');
+                el.classList.remove('hidden');
+                el.classList.add('shake-error');
+                document.getElementById('plans-section').scrollIntoView({behavior: 'smooth', block: 'center'});
+                setTimeout(() => el.classList.remove('shake-error'), 500);
+                isValid = false;
+            }
+            if(!state.domain) {
+                const el = document.getElementById('domain-error');
+                el.classList.remove('hidden');
+                if(isValid) {
+                     el.classList.add('shake-error');
+                     document.getElementById('domain-section').scrollIntoView({behavior: 'smooth', block: 'center'});
+                     setTimeout(() => el.classList.remove('shake-error'), 500);
+                }
+                isValid = false;
+            }
+            if(!state.updateType) {
+                 const el = document.getElementById('update-error');
+                el.classList.remove('hidden');
+                if(isValid) {
+                     el.classList.add('shake-error');
+                     document.getElementById('update-section').scrollIntoView({behavior: 'smooth', block: 'center'});
+                     setTimeout(() => el.classList.remove('shake-error'), 500);
+                }
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            if (!tosCheckbox.checked) {
+                // Just in case the disabled attribute was bypassed
+                alert("Please agree to the Terms of Service to proceed.");
+                return;
+            }
+
+            // Construct Message
+            const total = formatCurrency(state.planCost + state.domainCost);
+            
+            let message = `Hi Adekani, I've used your calculator and I'm ready to proceed with my website.\n\n`;
+            message += `*Selected Plan:* ${state.plan}\n`;
+            message += `*Domain Choice:* ${state.domain}\n`;
+            message += `*Update Preference:* ${state.updateType}\n`;
+            message += `-------------------------\n`;
+            message += `*ESTIMATED TOTAL: ${total}*\n`;
+            message += `-------------------------\n\n`;
+            message += `*Agreements:*\n`;
+            message += `• I understand that work will begin only after a minimum of a 70% deposit is made, as this payment helps to cover domain setup, hosting, and acquisition of all assets required for the project.\n`;
+            message += `• I have read and accepted the Terms of Service regarding results and client responsibility.( https://forms.adekani.com.ng/terms%20of%20service )`;
+
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
